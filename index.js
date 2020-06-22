@@ -48,7 +48,7 @@ let data = [
 
 const checkToken = (req, res, next) => {
   const headerSecret = req.headers["access-token"];
-  if (!headerSecret) return res.json({ message: "Unauthorized", status: 503 });
+  if (!headerSecret) return res.json({ message: "Unauthorized", status: 403 });
   const bearerToken = headerSecret.split(" ");
   const token = bearerToken[1];
   return jwt.verify(token, secretKey, (err, decoded) => {
@@ -63,7 +63,7 @@ const checkToken = (req, res, next) => {
 
 const checkRole = (req, res, next) => {
   if (role[req.role_id] !== "Superadmin") {
-    return res.json({ message: "Access Forbidden", status: 503 });
+    return res.json({ message: "Access Forbidden", status: 403 });
   } else {
     next();
   }
